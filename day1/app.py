@@ -17,14 +17,12 @@ def convert_to_numbers(s):
         'zero': '0'
     }
 
-    pattern = re.compile(r'(' + '|'.join(words_to_numbers.keys()) + r')')
-    
-    return re.sub(pattern, lambda x: words_to_numbers[x.group()], s)
+    return s if s.isdigit() else words_to_numbers[s]
 
 sum = 0
 for input in inputs:
-    input_nums = re.findall(r'\d', convert_to_numbers(input))
-    num = input_nums[0]+input_nums[-1]
-    print(input + " : " + convert_to_numbers(input) + " : " + num)
+    input_nums = re.findall(r'(?=(one|two|three|four|five|six|seven|eight|nine|\d))', input)
+    num = convert_to_numbers(input_nums[0]) + convert_to_numbers(input_nums[-1])
+    print(input + " : " + ','.join(input_nums) + " : " + num)
     sum += int(num)
 print(sum)
